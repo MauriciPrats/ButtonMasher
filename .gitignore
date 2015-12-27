@@ -12,7 +12,7 @@
 
 
 # Build results
-proj.win32/[Dd]ebug.win32/
+/proj.win32/Debug.win32/*
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
