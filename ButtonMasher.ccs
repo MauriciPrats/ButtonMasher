@@ -1,0 +1,24 @@
+<Solution>
+  <PropertyGroup Name="ButtonMasher" Version="2.3.3.0" Type="CocosStudio" />
+  <SolutionFolder>
+    <Group ctype="ResourceGroup">
+      <RootFolder Name=".">
+        <Project Name="MainScene.csd" Type="Scene" />
+        <Image Name="HelloWorld.png" />
+        <Image Name="ButtonBackground.png" />
+        <Project Name="Scene.csd" Type="Scene" />
+        <Project Name="Scene1.csd" Type="Scene" />
+        <Project Name="GameScene.csd" Type="Scene" />
+        <PlistParticleFile Name="particle_texture.plist" />
+        <Image Name="particle_texture.png" />
+        <Project Name="Node.csd" Type="Node" />
+        <Image Name="ButtonParts.png" />
+        <Image Name="PremiumCoinPH.png" />
+        <Image Name="BackgroundPlayingZone.png" />
+        <Image Name="Button.png" />
+        <Image Name="BackgroundPlayingZoneGrayed.png" />
+        <Image Name="BackgroundPlayingZonePressed.png" />
+      </RootFolder>
+    </Group>
+  </SolutionFolder>
+</Solution>
