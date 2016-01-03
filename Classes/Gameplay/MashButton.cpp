@@ -17,6 +17,8 @@ MashButton::MashButton(cocos2d::ui::Button* button,cocos2d::ui::LoadingBar* load
 	this->ammountAccumulatedPerSecond = ammountPerSecond;
 	this->maxAmmountToAccumulate = maxAccumulated;
 	this->button = button;
+	effectsHandler = new ButtonMasherEffectsHandler();
+
 	button->addTouchEventListener(CC_CALLBACK_2(MashButton::onButtonPressed, this));
 	MashButtonsManager::getInstance().registerMashButton(this);
 	ammountAccumulated = 0.0f;
@@ -24,7 +26,7 @@ MashButton::MashButton(cocos2d::ui::Button* button,cocos2d::ui::LoadingBar* load
 	originalSize = button->getContentSize();
 	this->particles = particles;
 	particles->stopSystem();
-	effects = new std::vector<ButtonMasherEffect*>(0);
+	particlesHandler = new PhysicParticleHandler();
 
 }
 
@@ -32,18 +34,22 @@ MashButton::MashButton(cocos2d::ui::Button* button,cocos2d::ui::LoadingBar* load
 void MashButton::onButtonPressed(Ref* pSender, cocos2d::ui::Widget::TouchEventType type) {
 	if (type == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
-		GameManager::getInstance().getMainUser()->addCoinsAccumulated(maxAmmountToAccumulate);
-		particles->resetSystem();
+		int coinsToGain = maxAmmountToAccumulate * effectsHandler->getComboMultiplicator();
+		
+		//particles->resetSystem();
+		particlesHandler->createPhysicParticles(coinsToGain);
 		this->button->setEnabled(false);
 		isOnCooldown = true;
+		consumeEffects();
 		generateEffects();
 	}
 }
 
 void MashButton::Update(float deltaTime) {
-	applyEffects(deltaTime);
+	effectsHandler->Update(deltaTime);
+	particlesHandler->Update(deltaTime);
 	if (isOnCooldown) {
-		ammountAccumulated += (ammountAccumulatedPerSecond * deltaTime);
+		ammountAccumulated += (ammountAccumulatedPerSecond * deltaTime * effectsHandler->getSpeederMultiplicator());
 		float ratio = (ammountAccumulated / (float)maxAmmountToAccumulate);
 		loadingBar->setPercent(ratio * 100);
 		if (ammountAccumulated > maxAmmountToAccumulate) {
@@ -58,6 +64,8 @@ void MashButton::setParent(cocos2d::Node* parent, int posX, int posY) {
 	parent->addChild(button);
 	parent->addChild(loadingBar);
 	parent->addChild(particles,1);
+	effectsHandler->setParent(parent);
+	particlesHandler->setParent(parent);
 	this->parent = parent;
 	this->posx = posX;
 	this->posy = posY;
@@ -67,42 +75,23 @@ void MashButton::setPosition(cocos2d::Vec2 position) {
 	button->setPosition(position);
 	loadingBar->setPosition(position); 
 	particles->setPosition(position);
-}
-
-void MashButton::applyEffects(float deltaTime) {
-	std::vector<ButtonMasherEffect*>::iterator iterator = effects->begin();
-	while (iterator != effects->end()) {
-		if ((*iterator)->Update(deltaTime)) {
-			ButtonMasherEffect* effect = (*iterator);
-			iterator = effects->erase(iterator);
-			delete effect;
-		}
-		iterator++;
-	}
+	effectsHandler->setPosition(position);
+	particlesHandler->setPosition(position);
 }
 
 void MashButton::consumeEffects() {
-	std::vector<ButtonMasherEffect*>::iterator iterator = effects->begin();
-	while (iterator != effects->end()) {
-		if ((*iterator)->Consume()) {
-			ButtonMasherEffect* effect = (*iterator);
-			iterator = effects->erase(iterator);
-			delete effect;
-		}
-		iterator++;
-	}
+
+	effectsHandler->Consume();
 }
 
 void MashButton::addEffect(ButtonMasherEffect* effect) {
-	effects->push_back(effect); 
-	effect->setParentAndPosition(parent, parent->convertToWorldSpace(particles->getPosition()));
+	effectsHandler->addEffect(effect);
 }
 
 void MashButton::generateEffects() {
 	Grid* grid = GameManager::getInstance().getMainUser()->getGrid();
 	std::vector<GridCell*>* cells;
 	ButtonMasherEffect* effect;
-	
 	bool hasAreaType = false;
 	bool hasType = false;
 	if (effectType == Enumerators::MashButtonEffectType::Area) {

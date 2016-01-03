@@ -66,6 +66,21 @@
     <ClCompile Include="..\Classes\Gameplay\ButtonMasherEffects\ButtonMasherEffectSpeeder.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\ButtonMasherEffects\ButtonMasherEffectsHandler.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\PhysicsParticles\PhysicParticle.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\PhysicsParticles\PhysicParticleHandler.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\CoinsCollectors\CoinsCollector.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\CoinsCollectors\CollectorContactListener.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -126,6 +141,21 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Enumerators.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\ButtonMasherEffects\ButtonMasherEffectsHandler.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\PhysicsParticles\PhysicParticle.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\PhysicsParticles\PhysicParticleHandler.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\CoinsCollectors\CoinsCollector.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\CoinsCollectors\CollectorContactListener.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

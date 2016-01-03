@@ -7,10 +7,9 @@ public:
 	ButtonMasherEffectSpeeder(float timeItLasts);
 	virtual bool Update(float deltaTime);
 	virtual bool Consume();
-	virtual void setParentAndPosition(cocos2d::Node* parent, cocos2d::Vec2 position);
+	virtual float getComboMultiplicationIncrease();
+	virtual float getSpeedMultiplicationIncrease();
 private:
-	cocos2d::Label* label;
 	float timeToFadeOut = 3.5f;
 	float timeAccumulated = 0.0f;
-	cocos2d::Vec2 speed;
 };

@@ -8,6 +8,9 @@
 #include "Data/DataManager.h"
 #include "DragAndDrop/DraggableItem.h"
 #include "Gameplay/MashButtonsManager.h"
+#include "Gameplay/CoinsCollectors/CoinsCollector.h"
+#include "Gameplay/CoinsCollectors/CollectorContactListener.h"
+#include "Constants.h"
 #include "Enumerators.h"
 
 USING_NS_CC;
@@ -17,8 +20,9 @@ using namespace cocostudio::timeline;
 Scene* GameScene::createScene()
 {
 	// 'scene' is an autorelease object
-	auto scene = Scene::create();
-
+	auto scene = Scene::createWithPhysics();
+	scene->getPhysicsWorld()->setGravity(cocos2d::Vec2(0.0f, -600.0f));
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	// 'layer' is an autorelease object
 	auto layer = GameScene::create();
 
@@ -63,7 +67,12 @@ bool GameScene::init()
 	auto patternLoadingBar = static_cast< cocos2d::ui::LoadingBar*>(rootNode->getChildByName("PatternLoadingBar"));
 	MashButtonsManager::getInstance().setLoadingBarInstance(patternLoadingBar);
 
-	 
+	auto contactListener = EventListenerPhysicsContact::create();
+	contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener,this);
+
+	CoinsCollector* c = new CoinsCollector("CollectorWall1", "CollectorWall2", "CollectorBottom", this, rootNode);
+
 	int rowCount = 5;
 	int columnsCount = 5;
 
@@ -85,4 +94,18 @@ bool GameScene::init()
 
 void GameScene::update(float deltaTime) {
 	MashButtonsManager::getInstance().updateButtons(deltaTime);
+}
+
+bool GameScene::onContactBegin(PhysicsContact& contact)
+{
+	if (contact.getShapeA()->getGroup() == Constants::getInstance().collectorsGroup && contact.getShapeB()->getGroup() == Constants::getInstance().physicParticlesGroup){
+		PhysicParticle* p = static_cast<PhysicParticle*>(contact.getShapeB()->getBody()->getNode()->getUserObject());
+		p->Collect();
+	}
+	else if (contact.getShapeA()->getGroup() == Constants::getInstance().physicParticlesGroup && contact.getShapeB()->getGroup() == Constants::getInstance().collectorsGroup){
+		PhysicParticle* p = static_cast<PhysicParticle*>(contact.getShapeA()->getBody()->getNode()->getUserObject());
+		p->Collect();
+	}
+
+	return true;
 }

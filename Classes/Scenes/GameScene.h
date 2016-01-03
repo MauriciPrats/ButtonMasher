@@ -14,7 +14,7 @@ public:
 	virtual bool init();
 
 	virtual void update(float deltaTime);
-
+	bool onContactBegin(cocos2d::PhysicsContact& contact);
 	// implement the "static create()" method manually
 	CREATE_FUNC(GameScene);
 

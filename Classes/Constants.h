@@ -23,7 +23,10 @@ std::string mainSceneParticlesExitButton = "particlesExitButton";
 std::string mainSceneParticlesPlayButton = "particlesPlayButton";
 
 
-
+//Collision Groups
+int physicParticlesGroup = -1;
+int collidersGroup = -2;
+int collectorsGroup = -3;
 
 
 };

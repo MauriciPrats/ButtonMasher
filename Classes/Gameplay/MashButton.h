@@ -3,6 +3,8 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "Gameplay/ButtonMasherEffects/ButtonMasherEffect.h"
+#include "Gameplay/ButtonMasherEffects/ButtonMasherEffectsHandler.h"
+#include "Gameplay/PhysicsParticles/PhysicParticleHandler.h"
 #include "Enumerators.h"
 
 USING_NS_CC;
@@ -17,12 +19,13 @@ public:
 	cocos2d::ui::Button* getButton() { return button; }
 	void setParent(cocos2d::Node* parent,int posX = 0,int posY = 0);
 	void addEffect(ButtonMasherEffect* effect);
-	void applyEffects(float deltaTime);
+	
 private:
 	cocos2d::ui::Button* button;
 	cocos2d::ui::LoadingBar* loadingBar;
 	cocos2d::ParticleSystemQuad* particles;
-	std::vector<ButtonMasherEffect*>* effects;
+	ButtonMasherEffectsHandler* effectsHandler;
+	PhysicParticleHandler* particlesHandler;
 
 	cocos2d::Node* parent;
 	int maxAmmountToAccumulate;
