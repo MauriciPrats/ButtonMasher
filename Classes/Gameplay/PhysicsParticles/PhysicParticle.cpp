@@ -9,7 +9,7 @@ PhysicParticle::PhysicParticle(cocos2d::Vec2 position,cocos2d::Vec2 throwDirecti
 	sprite->setUserObject(this);
 	body = PhysicsBody::createBox(sprite->getBoundingBox().size, PhysicsMaterial(1.0f, 0.1f, 0.0f));
 	body->setAngularVelocity(cocos2d::RandomHelper::random_real(-6.0, 6.0));
-	body->setContactTestBitmask(0xFFFFFFFF);
+	body->setContactTestBitmask(Constants::getInstance().contactTestBitmask);
 	//set initial velocity of physicsBody
 	body->setVelocity(throwDirection);
 	body->setGroup(Constants::getInstance().physicParticlesGroup);

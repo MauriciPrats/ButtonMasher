@@ -10,6 +10,6 @@ public:
 	virtual float getComboMultiplicationIncrease();
 	virtual float getSpeedMultiplicationIncrease();
 private:
-	float timeToFadeOut = 3.5f;
-	float timeAccumulated = 0.0f;
+	float timeToFadeOut;
+	float timeAccumulated;
 };

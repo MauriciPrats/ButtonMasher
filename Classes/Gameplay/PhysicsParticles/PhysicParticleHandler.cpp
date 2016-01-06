@@ -3,6 +3,7 @@
 
 PhysicParticleHandler::PhysicParticleHandler(){
 	particles = std::vector<PhysicParticle*>(0);
+	movingLabels = std::vector<MovingLabel*>(0);
 
 }
 
@@ -23,19 +24,19 @@ void PhysicParticleHandler::setPosition(cocos2d::Vec2 position){
 }
 
 void PhysicParticleHandler::Update(float deltaTime){
+
+	//Update Particles
 	std::vector<PhysicParticle*>::iterator iterator = particles.begin();
 	bool hasDeletedElement;
 	while (iterator != particles.end()) {
 		hasDeletedElement = false;
 		if ((*iterator)->Update(deltaTime)) {
-			if ((*iterator)->HasBeenCollected()){
-				//Spawn a number
-				//TEST!
-				Label* l = cocos2d::Label::create("+", "Bitmap.TTF", 15);
-				l->setPosition((*iterator)->getPosition());
-				parent->addChild(l);
-			}
 			PhysicParticle* effect = (*iterator);
+			if (effect->HasBeenCollected()){
+				//Spawn a the label
+				MovingLabel* label = new MovingLabel(parent, effect->getPosition(), effect->getAmmountWorth());
+				movingLabels.push_back(label);
+			}
 			effect->Destroy();
 			iterator = particles.erase(iterator);
 			hasDeletedElement = true;
@@ -45,6 +46,23 @@ void PhysicParticleHandler::Update(float deltaTime){
 		}
 		if (!hasDeletedElement){
 			iterator++;
+		}
+	}
+
+	//Update Labels
+	std::vector<MovingLabel*>::iterator iterator2 = movingLabels.begin();
+	while (iterator2 != movingLabels.end()) {
+		hasDeletedElement = false;
+		if ((*iterator2)->Update(deltaTime)) {
+			MovingLabel* label = (*iterator2);
+			iterator2 = movingLabels.erase(iterator2);
+			hasDeletedElement = true;
+			//Before the next increment we check if we have reached the end
+			delete label;
+			if (iterator2 == movingLabels.end()){ break; }
+		}
+		if (!hasDeletedElement){
+			iterator2++;
 		}
 	}
 }

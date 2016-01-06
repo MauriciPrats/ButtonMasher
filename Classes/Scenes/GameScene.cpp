@@ -21,7 +21,7 @@ Scene* GameScene::createScene()
 {
 	// 'scene' is an autorelease object
 	auto scene = Scene::createWithPhysics();
-	scene->getPhysicsWorld()->setGravity(cocos2d::Vec2(0.0f, -600.0f));
+	scene->getPhysicsWorld()->setGravity(Constants::getInstance().gravity);
 	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	// 'layer' is an autorelease object
 	auto layer = GameScene::create();
@@ -73,8 +73,8 @@ bool GameScene::init()
 
 	CoinsCollector* c = new CoinsCollector("CollectorWall1", "CollectorWall2", "CollectorBottom", this, rootNode);
 
-	int rowCount = 5;
-	int columnsCount = 5;
+	int rowCount = Constants::getInstance().gridHeight;
+	int columnsCount = Constants::getInstance().gridWidth;
 
 	Grid* grid = new Grid(rowCount, columnsCount, container);
 

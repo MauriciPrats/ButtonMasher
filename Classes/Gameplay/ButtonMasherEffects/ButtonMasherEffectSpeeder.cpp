@@ -1,8 +1,11 @@
 #include "Gameplay/ButtonMasherEffects/ButtonMasherEffectSpeeder.h"
+#include "Constants.h"
 
 
 ButtonMasherEffectSpeeder::ButtonMasherEffectSpeeder(float timeItLasts) {
 	type = Enumerators::MashButtonType::Speeder;
+	timeAccumulated = 0.0f;
+	timeToFadeOut = Constants::getInstance().speedEffectTimeToFadeOut;
 }
 
 
@@ -17,13 +20,13 @@ bool ButtonMasherEffectSpeeder::Update(float deltaTime) {
 
 bool ButtonMasherEffectSpeeder::Consume() {
 
-	return false;
+	return Constants::getInstance().speedEffectEndOnConsume;
 }
 
 float ButtonMasherEffectSpeeder::getComboMultiplicationIncrease(){
-	return 0.0f;
+	return Constants::getInstance().speedEffectComboMultiplicator;
 }
 
 float ButtonMasherEffectSpeeder::getSpeedMultiplicationIncrease(){
-	return 0.5f;
+	return Constants::getInstance().speedEffectSpeedMultiplicator;
 }

@@ -2,6 +2,7 @@
 #include "Gameplay/GridCell.h"
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+#include "Constants.h"
 
 Grid::Grid(int rows, int cols,cocos2d::Node* container) {
 
@@ -11,16 +12,16 @@ Grid::Grid(int rows, int cols,cocos2d::Node* container) {
 
 	float panelWidth = container->getBoundingBox().size.width;
 	float panelHeight = container->getBoundingBox().size.height;
-	float offset = 10.0f;
-	float divisionBetweencolumns = 5.0f;
+	float offset = Constants::getInstance().sideOffset;
+	float divisionBetweencolumns = Constants::getInstance().divisionBetweenGridTiles;
 
 	float width = (panelWidth - (offset * 2) - (divisionBetweencolumns * (cols - 1))) / cols;
 	float height = (panelHeight - (offset * 2) - (divisionBetweencolumns * (rows - 1))) / rows;
 
 	for (int j = 0; j < cols; ++j) {
 		for (int i = 0; i < rows; ++i) {
-			Color3B colorCell = Color3B(130, 130, 130);
-			if ((i + j) % 2 == 0) { colorCell = Color3B(170, 170, 170); }
+			Color3B colorCell = Constants::getInstance().tileColor1;
+			if ((i + j) % 2 == 0) { colorCell = Constants::getInstance().tileColor2; }
 			cocos2d::Vec2 cellPosition = cocos2d::Vec2(offset + (j*width) + (j*(divisionBetweencolumns)) + (width / 2), offset + (i*height) + (i*(divisionBetweencolumns)) + (height / 2));
 
 			gridCells[j][i] = new GridCell(colorCell, i, j, cellPosition, width, height, container);

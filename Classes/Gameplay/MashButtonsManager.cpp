@@ -1,6 +1,7 @@
 
 
 #include "Gameplay/MashButtonsManager.h"
+#include "Constants.h"
 
 MashButtonsManager::MashButtonsManager() {
 	mashButtons = std::vector<MashButton*>(0);
@@ -25,30 +26,20 @@ MashButton* MashButtonsManager::createMashButton(Enumerators::MashButtonType typ
 	loadingBar->setVisible(true);
 	loadingBar->setContentSize(size);
 
-	cocos2d::ParticleSystemQuad* particles = cocos2d::ParticleSystemQuad::create("particle_button_click.plist");
-	particles->setContentSize(size * 0.5f);
-	//particles->stopSystem();
-
 	MashButton* mashButton;
 	if (type == Enumerators::MashButtonType::Normal) {
 		button->setTitleText("Normal");
-		button->setColor(cocos2d::Color3B(200, 120, 120));
-		particles->setStartColor(cocos2d::Color4F(1.0f, 1.0f, 1.0f,1.0f));
-		particles->setScale(0.4f);
-		mashButton = new MashButton(button, loadingBar,particles, Enumerators::MashButtonEffectType::Cross, Enumerators::MashButtonType::Normal,20,2);
+		button->setColor(Constants::getInstance().normalButtonColor);
+		mashButton = new MashButton(button, loadingBar, Enumerators::MashButtonEffectType::Cross, Enumerators::MashButtonType::Normal, Constants::getInstance().normalButtonMaxAccumulated, Constants::getInstance().normalButtonAmmountPerSecond);
 	}else if (type == Enumerators::MashButtonType::Combo) {
 		button->setTitleText("Combo");
-		button->setColor(cocos2d::Color3B(120, 200, 120));
-		particles->setStartColor(cocos2d::Color4F(1.0f, 1.0f, 1.0f, 1.0f));
-		particles->setScale(0.4f);
-		mashButton = new MashButton(button, loadingBar, particles, Enumerators::MashButtonEffectType::X, Enumerators::MashButtonType::Combo, 10, 3);
+		button->setColor(Constants::getInstance().comboButtonColor);
+		mashButton = new MashButton(button, loadingBar, Enumerators::MashButtonEffectType::X, Enumerators::MashButtonType::Combo, Constants::getInstance().comboButtonMaxAccumulated, Constants::getInstance().comboButtonAmmountPerSecond);
 	}
 	else if (type == Enumerators::MashButtonType::Speeder) {
 		button->setTitleText("Speeder");
-		button->setColor(cocos2d::Color3B(120, 120, 200));
-		particles->setStartColor(cocos2d::Color4F(1.0f, 1.0f, 1.0f, 1.0f));
-		particles->setScale(0.4f);
-		mashButton = new MashButton(button, loadingBar, particles, Enumerators::MashButtonEffectType::Cross, Enumerators::MashButtonType::Speeder, 12, 2);
+		button->setColor(Constants::getInstance().speedButtonColor);
+		mashButton = new MashButton(button, loadingBar, Enumerators::MashButtonEffectType::Cross, Enumerators::MashButtonType::Speeder, Constants::getInstance().speedButtonMaxAccumulated, Constants::getInstance().speedButtonAmmountPerSecond);
 	}
 	return mashButton;
 }

@@ -10,7 +10,7 @@
 #include "Gameplay/ButtonMasherEffects/ButtonMasherEffect.h"
 
 
-MashButton::MashButton(cocos2d::ui::Button* button,cocos2d::ui::LoadingBar* loadingBar, cocos2d::ParticleSystemQuad* particles, Enumerators::MashButtonEffectType areaEffectType, Enumerators::MashButtonType effectType,int maxAccumulated,int ammountPerSecond) {
+MashButton::MashButton(cocos2d::ui::Button* button,cocos2d::ui::LoadingBar* loadingBar, Enumerators::MashButtonEffectType areaEffectType, Enumerators::MashButtonType effectType,int maxAccumulated,int ammountPerSecond) {
 	this->areaEffectType = areaEffectType;
 	this->effectType = effectType;
 	this->loadingBar = loadingBar;
@@ -24,8 +24,6 @@ MashButton::MashButton(cocos2d::ui::Button* button,cocos2d::ui::LoadingBar* load
 	ammountAccumulated = 0.0f;
 	isOnCooldown = false;
 	originalSize = button->getContentSize();
-	this->particles = particles;
-	particles->stopSystem();
 	particlesHandler = new PhysicParticleHandler();
 
 }
@@ -35,8 +33,6 @@ void MashButton::onButtonPressed(Ref* pSender, cocos2d::ui::Widget::TouchEventTy
 	if (type == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
 		int coinsToGain = maxAmmountToAccumulate * effectsHandler->getComboMultiplicator();
-		
-		//particles->resetSystem();
 		particlesHandler->createPhysicParticles(coinsToGain);
 		this->button->setEnabled(false);
 		isOnCooldown = true;
@@ -63,7 +59,6 @@ void MashButton::Update(float deltaTime) {
 void MashButton::setParent(cocos2d::Node* parent, int posX, int posY) {
 	parent->addChild(button);
 	parent->addChild(loadingBar);
-	parent->addChild(particles,1);
 	effectsHandler->setParent(parent);
 	particlesHandler->setParent(parent);
 	this->parent = parent;
@@ -74,7 +69,6 @@ void MashButton::setParent(cocos2d::Node* parent, int posX, int posY) {
 void MashButton::setPosition(cocos2d::Vec2 position) {
 	button->setPosition(position);
 	loadingBar->setPosition(position); 
-	particles->setPosition(position);
 	effectsHandler->setPosition(position);
 	particlesHandler->setPosition(position);
 }

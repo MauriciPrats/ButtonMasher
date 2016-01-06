@@ -1,5 +1,6 @@
 #include "Gameplay/ButtonMasherEffects/ButtonMasherEffectsHandler.h"
 #include "Gameplay/ButtonMasherEffects/ButtonMasherEffectCombo.h"
+#include "Constants.h"
 
 ButtonMasherEffectsHandler::ButtonMasherEffectsHandler() {
 	this->effects = new std::vector<ButtonMasherEffect*>(0);
@@ -66,14 +67,14 @@ void ButtonMasherEffectsHandler::removeEffect(ButtonMasherEffect* effect){
 void ButtonMasherEffectsHandler::updateLabels(){
 	std::string comboText = "";
 	for (int i = 0; i < comboCount; ++i){
-		comboText += "+";
+		comboText += Constants::getInstance().comboString;
 	}
 	comboLabel->setString(comboText);
 	calculateComboMultiplicator();
 
 	std::string speedText = "";
 	for (int i = 0; i < speedCount; ++i){
-		speedText += ">";
+		speedText += Constants::getInstance().speedString;
 	}
 	speedLabel->setString(speedText);
 	calculateSpeederMultiplicator();
@@ -98,8 +99,9 @@ void ButtonMasherEffectsHandler::setParent(cocos2d::Node* parent){
 
 void ButtonMasherEffectsHandler::setPosition(cocos2d::Vec2 position){
 	this->position = position;
-	comboLabel->setPosition(position + cocos2d::Vec2(-20, 40));
-	speedLabel->setPosition(position + cocos2d::Vec2(20, 40));
+	//TODO: Redesign
+	comboLabel->setPosition(position + Constants::getInstance().positionOffsetCombo);
+	speedLabel->setPosition(position + Constants::getInstance().positionOffsetSpeed);
 }
 
 void ButtonMasherEffectsHandler::calculateComboMultiplicator(){

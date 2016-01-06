@@ -28,7 +28,7 @@ CoinsCollector::CoinsCollector(std::string nameWall1, std::string nameWall2, std
 	auto collectorBottom = static_cast< cocos2d::ui::Scale9Sprite*>(rootNode->getChildByName(nameBottom));
 	auto body3 = PhysicsBody::createBox(collectorBottom->getBoundingBox().size, PHYSICSBODY_MATERIAL_DEFAULT);
 	body3->setDynamic(false);
-	body3->setContactTestBitmask(0xFFFFFFFF);
+	body3->setContactTestBitmask(Constants::getInstance().contactTestBitmask);
 	body3->setGroup(Constants::getInstance().collectorsGroup);
 	collectorBottom->setPhysicsBody(body3);
 	parent->addChild(collectorBottom);

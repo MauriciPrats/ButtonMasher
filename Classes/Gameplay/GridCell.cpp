@@ -3,6 +3,7 @@
 #include "ui/CocosGUI.h"
 #include "DragAndDrop/DraggableItem.h"
 #include "Gameplay/MashButtonsManager.h"
+#include "Constants.h"
 
 GridCell::GridCell(cocos2d::Color3B color, int row, int col, cocos2d::Vec2 pos, float width, float height, cocos2d::Node* parent) {
 	sprite = cocos2d::ui::Scale9Sprite::create("ButtonBackground.png");
@@ -22,10 +23,10 @@ bool GridCell::containsPoint(cocos2d::Vec2 point) {
 }
 void GridCell::onDragOver() {
 	if (!hasItemDragged) {
-		sprite->setColor(Color3B(100, 255, 100));
+		sprite->setColor(Constants::getInstance().onDragCanDropColor);
 	}
 	else {
-		sprite->setColor(Color3B(255, 100, 100));
+		sprite->setColor(Constants::getInstance().onDragCannotDropColor);
 	}
 }
 void GridCell::onNoDragOver() {
@@ -33,10 +34,6 @@ void GridCell::onNoDragOver() {
 }
 
 bool GridCell::setDraggedItem(DraggableItem* newDraggableItem) {
-	//cocos2d::ui::Button* buttonCreated = static_cast< cocos2d::ui::Button*>(newDraggableItem->getButton()->clone());
-	//parent->getParent()->addChild(buttonCreated);
-
-	//buttonCreated->setPosition(parent->convertToWorldSpace(sprite->getPosition()));
 	this->mashButton = MashButtonsManager::getInstance().createMashButton(newDraggableItem->getType(),sprite->getContentSize());
 	this->mashButton->setParent(parent->getParent(),posx,posy);
 	this->mashButton->setPosition(parent->convertToWorldSpace(sprite->getPosition()));

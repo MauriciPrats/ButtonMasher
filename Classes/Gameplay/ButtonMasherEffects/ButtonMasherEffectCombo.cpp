@@ -1,4 +1,5 @@
 #include "Gameplay/ButtonMasherEffects/ButtonMasherEffectCombo.h"
+#include "Constants.h"
 
 
 ButtonMasherEffectCombo::ButtonMasherEffectCombo(float timeItLasts) {
@@ -11,13 +12,13 @@ bool ButtonMasherEffectCombo::Update(float deltaTime) {
 }
 
 bool ButtonMasherEffectCombo::Consume() {
-	return true;
+	return Constants::getInstance().comboEffectEndOnConsume;
 }
 
 float ButtonMasherEffectCombo::getComboMultiplicationIncrease(){
-	return 0.5f;
+	return Constants::getInstance().comboEffectComboMultiplicator;
 }
 
 float ButtonMasherEffectCombo::getSpeedMultiplicationIncrease(){
-	return 0.0f;
+	return Constants::getInstance().comboEffectSpeedMultiplicator;
 }
